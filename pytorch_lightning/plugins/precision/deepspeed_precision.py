@@ -46,6 +46,7 @@ class DeepSpeedPrecisionPlugin(PrecisionPlugin):
             )
         deepspeed_engine: DeepSpeedEngine = model.trainer.model
         deepspeed_engine.backward(closure_loss, *args, **kwargs)
+        deepspeed_engine.allreduce_gradients()
 
     def _run_backward(self, tensor: Tensor, model: Module, *args: Any, **kwargs: Any) -> None:
         model.backward(tensor, *args, **kwargs)
